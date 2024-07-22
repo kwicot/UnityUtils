@@ -41,16 +41,16 @@ namespace Kwicot.Core.Scripts.Utils.Extensions
             }
         }
 
-        public static GameObject Reuse(this GameObject gameObject, Vector3 position, Quaternion rotation, Transform parent)
+        public static GameObject Reuse(this GameObject gameObject, Vector3 position, Quaternion rotation)
         {
             if (gameObject != null)
             {
                 var pool = PoolManager.Reuse(gameObject);
                 if (pool != null)
                 {
-                    gameObject.transform.SetParent(parent);
-                    gameObject.transform.position = position;
-                    gameObject.transform.rotation = rotation;
+                    pool.transform.position = position;
+                    pool.transform.rotation = rotation;
+                    return pool;
                 }
             }
             else
@@ -58,8 +58,10 @@ namespace Kwicot.Core.Scripts.Utils.Extensions
 
             return gameObject;
         }
+        public static GameObject Reuse(this GameObject gameObject) => Reuse(gameObject, gameObject.transform.position, gameObject.transform.rotation);
+        public static GameObject Reuse(this GameObject gameObject, Vector3 position) => Reuse(gameObject, position, gameObject.transform.rotation);
 
-        public static void Populate(GameObject gameObject, int count)
+        public static void Populate(this GameObject gameObject, int count)
         {
             if(gameObject != null)
                 PoolManager.Populate(gameObject, count);

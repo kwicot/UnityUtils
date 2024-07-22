@@ -27,7 +27,7 @@ namespace Core.Scripts.Pool
 
         public static GameObject Reuse(GameObject prefab)
         {
-            if (!_poolMap.TryGetValue(prefab, out var list))
+            if (_poolMap.TryGetValue(prefab, out var list))
             {
                 foreach (var gameObject in list)
                 {
@@ -38,7 +38,7 @@ namespace Core.Scripts.Pool
                             foreach (var pooledObject in pooledObjects)
                                 pooledObject.OnReuse();
                         }
-                        
+
                         return gameObject;
                     }
                 }
